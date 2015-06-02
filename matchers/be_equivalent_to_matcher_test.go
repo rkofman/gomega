@@ -33,6 +33,15 @@ var _ = Describe("BeEquivalentTo", func() {
 		})
 	})
 
+  Context("When asserting on nested type aliases", func() {
+    FIt("should the right thing", func() {
+//      Ω([]StringAlias{"foo"}).Should(BeEquivalentTo([]string{"foo"}))
+//      Ω([]string{"foo"}).Should(BeEquivalentTo([]StringAlias{"foo"}))
+      Ω([]StringAlias{"foo"}).ShouldNot(BeEquivalentTo([]string{"bar"}))
+//      Ω([]string{"foo"}).ShouldNot(BeEquivalentTo([]StringAlias{"bar"}))
+    })
+  })
+
 	Context("When asserting on numbers", func() {
 		It("should convert actual to expected and do the right thing", func() {
 			Ω(5).Should(BeEquivalentTo(5))

@@ -3,7 +3,7 @@ package matchers
 import (
 	"fmt"
 	"github.com/onsi/gomega/format"
-	"reflect"
+  "github.com/onsi/gomega/matchers/support/deep_equivalent"
 )
 
 type BeEquivalentToMatcher struct {
@@ -15,13 +15,7 @@ func (matcher *BeEquivalentToMatcher) Match(actual interface{}) (success bool, e
 		return false, fmt.Errorf("Both actual and expected must not be nil.")
 	}
 
-	convertedActual := actual
-
-	if actual != nil && matcher.Expected != nil && reflect.TypeOf(actual).ConvertibleTo(reflect.TypeOf(matcher.Expected)) {
-		convertedActual = reflect.ValueOf(actual).Convert(reflect.TypeOf(matcher.Expected)).Interface()
-	}
-
-	return reflect.DeepEqual(convertedActual, matcher.Expected), nil
+	return deep_equivalent.DeepEquivalent(actual, matcher.Expected), nil
 }
 
 func (matcher *BeEquivalentToMatcher) FailureMessage(actual interface{}) (message string) {
